@@ -1,0 +1,81 @@
+# AI News – Phân tích tin tức bằng AI (MVC)
+
+Giao diện web thuần **HTML · CSS · JavaScript**, tổ chức theo mô hình **MVC**, dữ liệu theo ERD `ai_news_analyzer`.
+Không cần cài đặt hay build.
+
+## Chạy thử
+Mở file `index.html` bằng trình duyệt (bấm đúp). Hoặc chạy máy chủ tĩnh: `python3 -m http.server 8000` rồi vào `http://localhost:8000`.
+
+Tài khoản demo:
+
+| Vai trò | Email | Mật khẩu |
+|---|---|---|
+| Người dùng | `user@ainews.vn` | `user1234` |
+| Quản trị viên | `admin@ainews.vn` | `admin123` |
+
+Mã xác nhận ở bước quên mật khẩu: `123456`.
+
+## Cấu trúc thư mục
+
+```
+ai-news-mvc/
+├── index.html                  Khung trang, nạp CSS và JS theo thứ tự
+├── assets/css/
+│   ├── base.css                Biến màu (sáng/tối), reset, kiểu chữ
+│   ├── layout.css              Header, điều hướng, menu xổ xuống, footer, toast
+│   ├── components.css          Nút, form, thẻ, bảng, tab, huy hiệu
+│   ├── pages.css               Kiểu riêng từng trang (trang chủ, đăng nhập, kết quả, dashboard, quản trị)
+│   └── responsive.css          Màn hình nhỏ
+└── app/
+    ├── main.js                 Điểm khởi động
+    ├── core/                   Hạ tầng dùng chung
+    │   ├── app.js              Tạo vùng tên window.App
+    │   ├── utils.js            Hàm tiện ích (esc, fmt, avg...)
+    │   ├── validator.js        Kiểm tra dữ liệu form
+    │   ├── session.js          Phiên đăng nhập
+    │   ├── events.js           Bắt sự kiện qua data-action / data-form / data-input
+    │   └── router.js           Điều hướng #hash và phân quyền
+    ├── models/                 (M) Dữ liệu và nghiệp vụ, không đụng tới DOM
+    │   ├── database.js         Dữ liệu mẫu theo ERD + hàm truy cập bảng
+    │   ├── UserModel.js        users
+    │   ├── CategoryModel.js    categories
+    │   ├── SourceModel.js      sources, authors
+    │   ├── ArticleModel.js     articles, similar_articles
+    │   ├── AnalysisModel.js    article_analysis (phân tích và chấm điểm)
+    │   ├── BookmarkModel.js    bookmarks
+    │   ├── ReportModel.js      reports
+    │   └── HistoryModel.js     analysis_history
+    ├── views/                  (V) Chỉ tạo HTML và thao tác giao diện
+    │   ├── components/         icons.js, ui.js (huy hiệu, bảng, biểu đồ, thẻ)
+    │   ├── LayoutView.js       Header, footer, toast, vùng nội dung
+    │   ├── HomeView.js · AuthView.js · ResultView.js · DashboardView.js
+    │   ├── HistoryView.js · BookmarksView.js · MyReportsView.js · ProfileView.js
+    │   └── admin/              Khung quản trị và 5 trang: tổng quan, người dùng, bài viết, nguồn tin, chuyên mục, báo cáo
+    └── controllers/            (C) Nhận sự kiện, gọi Model, chọn View để hiển thị
+        ├── LayoutController.js
+        ├── AuthController.js   Đăng nhập (user/admin), đăng ký, quên mật khẩu
+        ├── HomeController.js   Phân tích bài viết
+        ├── ArticleController.js  Kết quả, lưu bài, báo cáo bài
+        ├── UserController.js   Dashboard, lịch sử, hồ sơ
+        └── AdminController.js  Toàn bộ khu quản trị
+```
+
+## Luồng hoạt động
+
+```
+Người dùng thao tác  ->  Events (data-action / data-form)  ->  Controller
+Controller  ->  Model (đọc/ghi dữ liệu)  ->  trả dữ liệu về Controller
+Controller  ->  View.render(dữ liệu)  ->  HTML hiển thị trong #app
+```
+
+- **Router** (`core/router.js`) khai báo từng route kèm quyền: `auth`, `role: "admin" | "user"`, `guest`.
+- **View không gọi Model**, **Model không biết DOM**. Controller là nơi duy nhất nối hai bên.
+- Thêm một trang mới: tạo `XxxView.js`, thêm route và handler vào controller, rồi thêm thẻ `<script>` vào `index.html`.
+
+## Nối với backend thật
+Hiện dữ liệu nằm trong bộ nhớ (`app/models/database.js`) nên tải lại trang sẽ về dữ liệu mẫu. Khi có API, chỉ cần thay phần thân các hàm trong `App.DB` hoặc từng Model bằng `fetch(...)`. Điểm tin cậy ở `AnalysisModel.analyze()` đang là giả lập, cần thay bằng kết quả từ mô hình AI.
+
+## Ghi chú
+- Giá trị enum (`role`, `status`, `trust_level`, trạng thái báo cáo) là giả định vì ERD không ghi giá trị.
+- Các file JS nạp bằng thẻ `<script>` thường (không dùng ES module) để mở trực tiếp được bằng `file://`.
+- Font Be Vietnam Pro và Source Serif 4 tải từ Google Fonts, nếu không có mạng sẽ dùng font hệ thống.

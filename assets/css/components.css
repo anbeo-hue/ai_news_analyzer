@@ -1,0 +1,65 @@
+/* Thành phần dùng lại: nút, form, thẻ, bảng, tab, huy hiệu */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+.burger:hover{background:var(--soft)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border:1px solid var(--pri);border-radius:8px;background:var(--pri);color:var(--on);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s,color .15s,transform .1s}
+.btn:hover{background:var(--pri2);border-color:var(--pri2)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+.btn.ghost{background:transparent;color:var(--tx);border-color:var(--line)}
+.btn.ghost:hover{background:var(--soft);border-color:var(--pri);color:var(--pri)}
+.btn.red{background:transparent;color:var(--bad);border-color:var(--bad)}
+.btn.red:hover{background:var(--bad);color:#fff}
+.btn.full{width:100%}
+.btn.sm{height:32px;padding:0 12px;font-size:13px}
+.btn[disabled]{opacity:.6;pointer-events:none}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-top:20px}
+.tabs{display:flex;gap:22px;border-bottom:1px solid var(--bd);margin:-4px 0 16px}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 2px;margin-bottom:-1px;color:var(--mut);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:color .15s}
+.tabs button:hover{color:var(--tx)}
+.tabs button.on{color:var(--pri);border-color:var(--pri)}
+input,textarea,select{width:100%;padding:0 13px;height:42px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--tx);font:inherit;transition:border-color .15s,box-shadow .15s}
+textarea{height:auto;min-height:130px;padding:11px 13px;resize:vertical}
+textarea.sm{min-height:90px}
+input:hover,textarea:hover,select:hover{border-color:var(--pri)}
+input:focus,textarea:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--soft);outline:none}
+input[type=checkbox]{width:auto;height:auto}
+label{font-weight:600;font-size:13px;display:block;margin:14px 0 6px}
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin:40px 0 16px;padding-top:20px;border-top:1px solid var(--bd)}
+.sec h2{font-family:var(--fd);font-weight:600;font-size:22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;gap:10px;padding:18px;background:var(--card);border:1px solid var(--bd);border-radius:12px;cursor:pointer;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--pri);transform:translateY(-2px)}
+.card h3{font-family:var(--fd);font-weight:600;font-size:18px;line-height:1.35}
+.cat{font-size:11.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mut)}
+.bg{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--c);white-space:nowrap}
+.bg i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.tag{display:inline-block;padding:2px 9px;border:1px solid var(--bd);border-radius:6px;font-size:12.5px;margin:2px 4px 2px 0;background:var(--card)}
+.chip{display:inline-flex;align-items:center;padding:6px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;color:var(--mut);background:var(--card)}
+.lnk:hover{text-decoration:underline}
+.pw{position:relative}
+.pw button{position:absolute;right:6px;top:6px;height:30px;padding:0 10px;background:none;border:0;border-radius:6px;color:var(--mut);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.pw button:hover{background:var(--soft);color:var(--pri)}
+.chk{display:flex;gap:8px;align-items:center;font-weight:400;margin:14px 0 2px}
+.or{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:12px;margin:16px 0}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--bd)}
+.bar{height:4px;border-radius:2px;background:var(--bd);overflow:hidden;margin:5px 0 12px}
+.bar i{display:block;height:100%;background:var(--c)}
+.hi{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--bd);cursor:pointer}
+.hi:last-child{border-bottom:0}
+.hi .x{flex:1;min-width:0}
+.hi h3{font-size:14.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color .15s}
+.hi:hover h3{color:var(--pri)}
+.stp{display:flex;gap:6px;margin:14px 0 4px}
+.stp b{flex:1;height:3px;border-radius:2px;background:var(--bd)}
+.stp b.on{background:var(--pri)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 10px;border-bottom:1px solid var(--bd);vertical-align:middle}
+tbody tr{transition:background .12s}
+tbody tr:hover{background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.who{display:flex;gap:10px;align-items:center}
+.who .av{width:34px;height:34px}
+.ac{white-space:nowrap;text-align:right}
+.ac .btn{margin-left:6px}

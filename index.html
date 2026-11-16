@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI News – Phân tích tin tức bằng AI</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231d4ed8'/%3E%3Cpath d='M7 12.5l3.2 3.2L17 8.5' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Source+Serif+4:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+<header class="hd" id="header"></header>
+<main class="wrap" id="app"></main>
+<footer id="footer"></footer>
+<div id="ts" role="status"></div>
+<noscript>Trang cần bật JavaScript để hoạt động.</noscript>
+
+<!-- Thứ tự nạp: core -> models -> views -> controllers -> khởi động -->
+<script src="app/core/app.js"></script>
+<script src="app/core/utils.js"></script>
+<script src="app/core/validator.js"></script>
+<script src="app/models/AnalysisModel.js"></script>
+<script src="app/models/database.js"></script>
+<script src="app/models/UserModel.js"></script>
+<script src="app/models/CategoryModel.js"></script>
+<script src="app/models/SourceModel.js"></script>
+<script src="app/models/ArticleModel.js"></script>
+<script src="app/models/BookmarkModel.js"></script>
+<script src="app/models/ReportModel.js"></script>
+<script src="app/models/HistoryModel.js"></script>
+<script src="app/core/session.js"></script>
+<script src="app/views/components/icons.js"></script>
+<script src="app/views/components/ui.js"></script>
+<script src="app/views/LayoutView.js"></script>
+<script src="app/views/HomeView.js"></script>
+<script src="app/views/AuthView.js"></script>
+<script src="app/views/ResultView.js"></script>
+<script src="app/views/DashboardView.js"></script>
+<script src="app/views/HistoryView.js"></script>
+<script src="app/views/BookmarksView.js"></script>
+<script src="app/views/MyReportsView.js"></script>
+<script src="app/views/ProfileView.js"></script>
+<script src="app/views/admin/AdminLayoutView.js"></script>
+<script src="app/views/admin/OverviewView.js"></script>
+<script src="app/views/admin/UsersView.js"></script>
+<script src="app/views/admin/ArticlesView.js"></script>
+<script src="app/views/admin/SourcesView.js"></script>
+<script src="app/views/admin/CategoriesView.js"></script>
+<script src="app/views/admin/ReportsView.js"></script>
+<script src="app/core/events.js"></script>
+<script src="app/core/router.js"></script>
+<script src="app/controllers/LayoutController.js"></script>
+<script src="app/controllers/AuthController.js"></script>
+<script src="app/controllers/HomeController.js"></script>
+<script src="app/controllers/ArticleController.js"></script>
+<script src="app/controllers/UserController.js"></script>
+<script src="app/controllers/AdminController.js"></script>
+<script src="app/main.js"></script>
+</body>
+</html>
