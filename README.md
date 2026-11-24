@@ -1,7 +1,7 @@
 # AI News – Phân tích tin tức bằng AI (MVC)
 
 Giao diện web thuần **HTML · CSS · JavaScript**, tổ chức theo mô hình **MVC**, dữ liệu theo ERD `ai_news_analyzer`.
-Không cần cài đặt hay build.
+Giao diện không cần cài đặt hay build. Riêng chức năng **phân tích bài viết** cần bật backend (xem mục Chạy thử).
 
 Dự án gồm hai khối:
 
@@ -14,7 +14,9 @@ ai_news_analyzer/
 ## Chạy thử
 **Frontend:** `cd frontend` rồi `python -m http.server 8000` và vào `http://localhost:8000`. Hoặc mở thẳng file `frontend/index.html` bằng trình duyệt (bấm đúp).
 
-**Backend:** xem hướng dẫn trong `backend/README.md`, server chạy ở cổng 8001.
+**Backend:** xem hướng dẫn trong `backend/README.md`, server chạy ở cổng 8001. Cần bật backend trước thì nút **Phân tích** ở trang chủ mới hoạt động. Chưa có API key Gemini thì để `USE_MOCK_AI=true` trong `backend/.env` (kết quả giả lập, trang kết quả có ghi chú rõ).
+
+Nếu frontend không gọi được backend, trang chủ hiện thông báo "Không kết nối được máy chủ phân tích". Địa chỉ backend đặt ở `frontend/app/core/app.js` (`apiBase`).
 
 Tài khoản demo:
 
@@ -39,7 +41,8 @@ frontend/
 └── app/
     ├── main.js                 Điểm khởi động
     ├── core/                   Hạ tầng dùng chung
-    │   ├── app.js              Tạo vùng tên window.App
+    │   ├── app.js              Tạo vùng tên window.App và cấu hình (apiBase = địa chỉ backend)
+    │   ├── api.js              Gọi backend (POST /api/analyze) và đổi lỗi thành thông báo tiếng Việt
     │   ├── utils.js            Hàm tiện ích (esc, fmt, avg...)
     │   ├── validator.js        Kiểm tra dữ liệu form
     │   ├── session.js          Phiên đăng nhập
@@ -51,7 +54,7 @@ frontend/
     │   ├── CategoryModel.js    categories
     │   ├── SourceModel.js      sources, authors
     │   ├── ArticleModel.js     articles, similar_articles
-    │   ├── AnalysisModel.js    article_analysis (phân tích và chấm điểm)
+    │   ├── AnalysisModel.js    article_analysis: lưu kết quả từ backend, tính các thanh điểm
     │   ├── BookmarkModel.js    bookmarks
     │   ├── ReportModel.js      reports
     │   └── HistoryModel.js     analysis_history
@@ -64,7 +67,7 @@ frontend/
     └── controllers/            (C) Nhận sự kiện, gọi Model, chọn View để hiển thị
         ├── LayoutController.js
         ├── AuthController.js   Đăng nhập (user/admin), đăng ký, quên mật khẩu
-        ├── HomeController.js   Phân tích bài viết
+        ├── HomeController.js   Phân tích bài viết: gọi backend, lưu kết quả, mở trang kết quả
         ├── ArticleController.js  Kết quả, lưu bài, báo cáo bài
         ├── UserController.js   Dashboard, lịch sử, hồ sơ
         └── AdminController.js  Toàn bộ khu quản trị
@@ -74,6 +77,7 @@ frontend/
 
 ```
 Người dùng thao tác  ->  Events (data-action / data-form)  ->  Controller
+Controller  ->  Api (phân tích bài viết: gọi backend)  ->  kết quả AI
 Controller  ->  Model (đọc/ghi dữ liệu)  ->  trả dữ liệu về Controller
 Controller  ->  View.render(dữ liệu)  ->  HTML hiển thị trong #app
 ```
@@ -82,10 +86,13 @@ Controller  ->  View.render(dữ liệu)  ->  HTML hiển thị trong #app
 - **View không gọi Model**, **Model không biết DOM**. Controller là nơi duy nhất nối hai bên.
 - Thêm một trang mới: tạo `XxxView.js`, thêm route và handler vào controller, rồi thêm thẻ `<script>` vào `index.html`.
 
-## Nối với backend thật
-Backend đã có trong thư mục `backend/` (endpoint `POST /api/analyze`), nhưng **frontend chưa được nối** vào backend.
+## Nối với backend
+Phân tích bài viết đã được nối với backend: `HomeController` gọi `App.Api.analyze()` (`core/api.js`) tới `POST /api/analyze`, rồi `AnalysisModel.save()` lưu kết quả (bài viết, nguồn, tác giả, điểm, phần giải thích) vào dữ liệu trong bộ nhớ và mở trang kết quả. Trang kết quả hiện đủ 5 thanh điểm dạng điểm đạt/điểm tối đa (ví dụ 22/25) và phần "Vì sao bài viết được đánh giá như vậy".
 
-Hiện dữ liệu nằm trong bộ nhớ (`app/models/database.js`) nên tải lại trang sẽ về dữ liệu mẫu. Khi có API, chỉ cần thay phần thân các hàm trong `App.DB` hoặc từng Model bằng `fetch(...)`. Điểm tin cậy ở `AnalysisModel.analyze()` đang là giả lập, cần thay bằng kết quả từ mô hình AI.
+Chưa nối:
+- Dữ liệu vẫn nằm trong bộ nhớ (`app/models/database.js`), tải lại trang sẽ về dữ liệu mẫu. Bước sau lưu vào MySQL `ai_news_analyzer` qua backend.
+- Bài viết tương tự đang lấy từ dữ liệu mẫu, chưa dùng embedding. Điểm "Đối chiếu chéo" nhờ đó ở mức trung lập (50).
+- Đăng nhập vẫn dùng tài khoản mẫu trong bộ nhớ.
 
 ## Ghi chú
 - Giá trị enum (`role`, `status`, `trust_level`, trạng thái báo cáo) là giả định vì ERD không ghi giá trị.

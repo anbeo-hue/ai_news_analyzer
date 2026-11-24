@@ -51,3 +51,10 @@
 .lg{display:grid;gap:8px;font-size:13px}
 .lg span{display:flex;justify-content:space-between}
 .lg i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:8px}
+/* Phần "Vì sao bài viết được đánh giá như vậy" và nhãn chế độ giả lập */
+.ex{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.ex li{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.ex b{flex:none;width:20px;text-align:center}
+.ex .ok b{color:var(--ok)}
+.ex .warn b{color:var(--warn)}
+.mk{font-size:12.5px;color:var(--warn);margin:0 0 8px}

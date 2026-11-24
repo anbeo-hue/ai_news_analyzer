@@ -15,7 +15,7 @@ A.Views.Home={
 <div class="grid" id="ft">${articles.map(a=>UI.card(a)).join("")}</div>`},
   showTab(m){this.mode=m;$$("#tb button").forEach(x=>x.classList.toggle("on",x.dataset.t===m));$("#p-text").hidden=m!=="text";$("#p-url").hidden=m!=="url";this.setError("")},
   read(){return{mode:this.mode,value:$(this.mode==="text"?"#tx":"#ul").value.trim()}},
-  setError(m){$("#ae").textContent=m},
-  setBusy(b){const x=$("#an");x.disabled=b;x.textContent=b?"Đang phân tích…":"Phân tích"}
+  setError(m){const e=$("#ae");if(e)e.textContent=m},
+  setBusy(b){const x=$("#an");if(!x)return;x.disabled=b;x.textContent=b?"Đang phân tích…":"Phân tích"}
 };
 })(window.App);
