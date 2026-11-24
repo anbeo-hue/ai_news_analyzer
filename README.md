@@ -3,8 +3,18 @@
 Giao diện web thuần **HTML · CSS · JavaScript**, tổ chức theo mô hình **MVC**, dữ liệu theo ERD `ai_news_analyzer`.
 Không cần cài đặt hay build.
 
+Dự án gồm hai khối:
+
+```
+ai_news_analyzer/
+├── frontend/    Giao diện MVC thuần HTML / CSS / JS (cổng 8000)
+└── backend/     API FastAPI phân tích bài báo bằng AI (cổng 8001)
+```
+
 ## Chạy thử
-Mở file `index.html` bằng trình duyệt (bấm đúp). Hoặc chạy máy chủ tĩnh: `python3 -m http.server 8000` rồi vào `http://localhost:8000`.
+**Frontend:** `cd frontend` rồi `python -m http.server 8000` và vào `http://localhost:8000`. Hoặc mở thẳng file `frontend/index.html` bằng trình duyệt (bấm đúp).
+
+**Backend:** xem hướng dẫn trong `backend/README.md`, server chạy ở cổng 8001.
 
 Tài khoản demo:
 
@@ -18,7 +28,7 @@ Mã xác nhận ở bước quên mật khẩu: `123456`.
 ## Cấu trúc thư mục
 
 ```
-ai-news-mvc/
+frontend/
 ├── index.html                  Khung trang, nạp CSS và JS theo thứ tự
 ├── assets/css/
 │   ├── base.css                Biến màu (sáng/tối), reset, kiểu chữ
@@ -73,6 +83,8 @@ Controller  ->  View.render(dữ liệu)  ->  HTML hiển thị trong #app
 - Thêm một trang mới: tạo `XxxView.js`, thêm route và handler vào controller, rồi thêm thẻ `<script>` vào `index.html`.
 
 ## Nối với backend thật
+Backend đã có trong thư mục `backend/` (endpoint `POST /api/analyze`), nhưng **frontend chưa được nối** vào backend.
+
 Hiện dữ liệu nằm trong bộ nhớ (`app/models/database.js`) nên tải lại trang sẽ về dữ liệu mẫu. Khi có API, chỉ cần thay phần thân các hàm trong `App.DB` hoặc từng Model bằng `fetch(...)`. Điểm tin cậy ở `AnalysisModel.analyze()` đang là giả lập, cần thay bằng kết quả từ mô hình AI.
 
 ## Ghi chú
